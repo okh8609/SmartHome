@@ -54,7 +54,7 @@ public class ServerFragment extends Fragment {
 
                     //取得簡訊發送人的電話號碼
                     sPhoneNo = smsMsgs[0].getDisplayOriginatingAddress();
-                    
+
                     //取得簡訊內容
                     for (SmsMessage msg : smsMsgs)
                         sMsgBody += msg.getDisplayMessageBody();
@@ -63,7 +63,7 @@ public class ServerFragment extends Fragment {
                 Log.i("SmsReceiver", "sPhoneNo:" + sPhoneNo);
                 Log.i("SmsReceiver", "sMsgBody:" + sMsgBody);
 
-                String msg = "## 號碼：" + sPhoneNo + "\n## 內容：" + sMsgBody;
+                String msg = "## 號碼：\n" + sPhoneNo + "\n## 內容：\n" + sMsgBody;
                 // Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
                 TextView server_log = (TextView) root.findViewById(R.id.server_log);
                 server_log.setText(msg + "\n\n\n" + server_log.getText());

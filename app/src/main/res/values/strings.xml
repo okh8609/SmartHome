@@ -2,4 +2,10 @@
     <string name="app_name">SmartHome</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="unit_array">
+        <item>秒</item>
+        <item>分</item>
+        <item>時</item>
+    </string-array>
 </resources>

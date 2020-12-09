@@ -7,4 +7,26 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+<!--    -->
+
+    <style name="myCustomSpinner" parent="AppTheme">
+        <item name="android:spinnerItemStyle">@style/spinnerItemStyle</item>
+        <item name="android:spinnerDropDownItemStyle">@style/spinnerDropDownItemStyle</item>
+        <!-- Override the dropdown item in support library -->
+        <item name="spinnerDropDownItemStyle">@style/spinnerDropDownItemStyle</item>
+    </style>
+
+    <style name="spinnerItemStyle" parent="@android:style/Widget.TextView.SpinnerItem">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textColor">#003060</item>
+    </style>
+
+    <style name="spinnerDropDownItemStyle" parent="Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
+        <item name="android:textSize">24dp</item>
+        <item name="android:textColor">#003D79</item>
+    </style>
+
 </resources>
