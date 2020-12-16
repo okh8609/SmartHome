@@ -3,7 +3,9 @@ package com.example.smarthome;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -38,7 +40,8 @@ public class ClientFragment extends Fragment {
         return fragment;
     }
 
-    EditText server_ip;
+    EditText server_phoneNu;
+    Button sms_test;
 
     RadioButton once;
     LinearLayout once_;
@@ -79,6 +82,10 @@ public class ClientFragment extends Fragment {
         View root = inflater.inflate(R.layout.client_fragment, container, false);
 
         // region Find Views
+        server_phoneNu = ((EditText) root.findViewById(R.id.server_phoneNu));
+        sms_test = ((Button) root.findViewById(R.id.sms_test));
+
+        once = ((RadioButton) root.findViewById(R.id.once));
         once_ = ((LinearLayout) root.findViewById(R.id.once_));
         once_on = ((Button) root.findViewById(R.id.once_on));
         once_off = ((Button) root.findViewById(R.id.once_off));
@@ -110,6 +117,13 @@ public class ClientFragment extends Fragment {
         scdl_time2 = ((EditText) root.findViewById(R.id.scdl_time2));
         scdl_go = ((Button) root.findViewById(R.id.scdl_go));
         // endregion
+
+        sms_test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendSMSmsg(server_phoneNu.getText().toString(),"TEST!!");
+            }
+        });
 
         scdl_time1.setFocusable(false);
         scdl_time1.setClickable(true);
@@ -148,5 +162,19 @@ public class ClientFragment extends Fragment {
         });
 
         return root;
+    }
+
+    protected void sendSMSmsg(String phoneNu, String message) {
+
+        Log.i("## Send SMS", phoneNu + " : " + message);
+
+        try {
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(phoneNu, null, message, null, null);
+            Toast.makeText(getContext(), "SMS sent.", Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Toast.makeText(getContext(), "SMS faild.", Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
     }
 }

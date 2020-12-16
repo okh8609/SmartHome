@@ -2,6 +2,7 @@ package com.example.smarthome;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -13,8 +14,8 @@ import android.view.Window;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int MY_PERMISSIONS_REQUEST_RECEIVE_SMS = 80;
-    private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 88;
+    private static final int MY_PERMISSIONS_REQUEST = 80;
+    private static final int MY_SMS_PERMISSION_REQUEST_CODE = 88;
 
 
     @Override
@@ -37,21 +38,38 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkSmsPermission() {
-        // 尚未授予權限。 使用requestPermissions（）。
-        // MY_PERMISSIONS_REQUEST_RECEIVE_SMS是一個應用程序定義的int常量。
-        // 回調方法獲取請求的結果。
 
-        if (ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED) {
+        if ((ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) +
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS) +
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS))
+                != PackageManager.PERMISSION_GRANTED) {
+
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.RECEIVE_SMS},
-                    MY_PERMISSIONS_REQUEST_RECEIVE_SMS);
+                    new String[]{Manifest.permission.READ_PHONE_STATE, Manifest.permission.RECEIVE_SMS, Manifest.permission.SEND_SMS
+                    }, MY_PERMISSIONS_REQUEST);
+
         }
-        if (ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.SEND_SMS},
-                    MY_PERMISSIONS_REQUEST_SEND_SMS);
+
+/*
+        // 10 OK
+        if ((ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) +
+                ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS))
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted. Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, "Manifest.permission.READ_SMS") ||
+                    ActivityCompat.shouldShowRequestPermissionRationale(this, "Manifest.permission.READ_SMS")) {
+                // Show an explanation to the user *asynchronously* -- don't block this thread waiting for the user's response!
+                // After the user sees the explanation, try again to request the permission.
+            } else {
+                // No explanation needed; request the permission
+                ActivityCompat.requestPermissions(this, new String[]{"Manifest.permission.READ_SMS, Manifest.permission.SEND_SMS"}, MY_SMS_PERMISSION_REQUEST_CODE);
+                // REQUEST_CODE is an app-defined int constant.
+                // The callback method gets the result of the request.
+            }
+        } else {
+            // Permission has already been granted
         }
+*/
+
     }
 }
