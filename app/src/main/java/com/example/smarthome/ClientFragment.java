@@ -2,6 +2,7 @@ package com.example.smarthome;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.net.sip.SipSession;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.text.format.DateFormat;
@@ -81,9 +82,14 @@ public class ClientFragment extends Fragment {
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.client_fragment, container, false);
 
-        // region Find Views
         server_phoneNu = ((EditText) root.findViewById(R.id.server_phoneNu));
         sms_test = ((Button) root.findViewById(R.id.sms_test));
+        sms_test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendSMSmsg(server_phoneNu.getText().toString(), "TEST!!");
+            }
+        });
 
         once = ((RadioButton) root.findViewById(R.id.once));
         once_ = ((LinearLayout) root.findViewById(R.id.once_));
@@ -116,14 +122,48 @@ public class ClientFragment extends Fragment {
         scdl_time1 = ((EditText) root.findViewById(R.id.scdl_time1));
         scdl_time2 = ((EditText) root.findViewById(R.id.scdl_time2));
         scdl_go = ((Button) root.findViewById(R.id.scdl_go));
-        // endregion
 
-        sms_test.setOnClickListener(new View.OnClickListener() {
+        once.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendSMSmsg(server_phoneNu.getText().toString(),"TEST!!");
+                once_.setVisibility(View.VISIBLE);
+                prid_.setVisibility(View.GONE);
+                rept_.setVisibility(View.GONE);
+                scdl_.setVisibility(View.GONE);
             }
         });
+        prid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                once_.setVisibility(View.GONE);
+                prid_.setVisibility(View.VISIBLE);
+                rept_.setVisibility(View.GONE);
+                scdl_.setVisibility(View.GONE);
+            }
+        });
+        rept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                once_.setVisibility(View.GONE);
+                prid_.setVisibility(View.GONE);
+                rept_.setVisibility(View.VISIBLE);
+                scdl_.setVisibility(View.GONE);
+            }
+        });
+        scdl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                once_.setVisibility(View.GONE);
+                prid_.setVisibility(View.GONE);
+                rept_.setVisibility(View.GONE);
+                scdl_.setVisibility(View.VISIBLE);
+            }
+        });
+        once.setChecked(true);
+        once_.setVisibility(View.VISIBLE);
+        prid_.setVisibility(View.GONE);
+        rept_.setVisibility(View.GONE);
+        scdl_.setVisibility(View.GONE);
 
         scdl_time1.setFocusable(false);
         scdl_time1.setClickable(true);

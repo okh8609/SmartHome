@@ -9,8 +9,8 @@
         android:id="@+id/client_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="15dp"
         android:paddingStart="15dp"
+        android:paddingTop="15dp"
         android:paddingEnd="15dp"
         android:paddingBottom="5dp"
         android:text="智能家電控制"
@@ -27,14 +27,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginBottom="12dp">
+                android:layout_marginBottom="12dp"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -50,8 +49,8 @@
                     android:id="@+id/server_phoneNu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight=".85"
                     android:layout_marginEnd="10dp"
+                    android:layout_weight=".85"
                     android:padding="10dp"
                     android:text="0912778955"
                     android:textSize="20dp" />
@@ -61,8 +60,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="#D2E9FF"
-                    android:text="TEST"
-                     />
+                    android:text="TEST" />
             </LinearLayout>
 
             <RadioGroup
@@ -73,6 +71,8 @@
                     android:id="@+id/once"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:text="單次"
                     android:textSize="26dp" />
 
@@ -110,6 +110,7 @@
                     android:id="@+id/prid"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:text="時段"
                     android:textSize="26dp" />
@@ -174,6 +175,7 @@
                     android:id="@+id/rept"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:text="重複"
                     android:textSize="26dp" />
@@ -286,6 +288,8 @@
                     android:id="@+id/scdl"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:text="排程"
                     android:textSize="26dp" />
 
