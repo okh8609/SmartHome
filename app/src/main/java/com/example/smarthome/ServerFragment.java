@@ -24,6 +24,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Arrays;
+import java.util.List;
 
 public class ServerFragment extends Fragment {
 
@@ -86,6 +88,42 @@ public class ServerFragment extends Fragment {
                     //取得簡訊內容
                     for (SmsMessage msg : smsMsgs)
                         sMsgBody += msg.getDisplayMessageBody();
+                }
+
+                try {
+                    // 測試資料
+                    //            [0]  [1][2][3] [4][5]
+//                    sMsgBody = "%Khaos%,#A,1"; // 單開
+//                    sMsgBody = "%Khaos%,#A,0"; // 單關
+//                    sMsgBody = "%Khaos%,#B,3"; // 開三秒
+//                    sMsgBody = "%Khaos%,#C,2,2"; // 開2秒後關2秒(循環)
+//                    sMsgBody = "%Khaos%,#D,0010000,2,2"; // 排程(123456日), 某天中的第幾秒開啟, 某天中的第幾秒關閉
+                    //
+
+                    String[] msg = sMsgBody.split(",");
+                    if (msg[0].equals("%Khaos%")) {
+                        switch (msg[1]) {
+                            case "#A":
+                                Log.i("%Khaos%", "Class #A");
+                                if (Integer.parseInt(msg[2].trim()) == 1)
+                                    deviceON(device_ip.getText().toString());
+                                else if (Integer.parseInt(msg[2].trim()) == 0)
+                                    deviceOFF(device_ip.getText().toString());
+
+                                break;
+                            case "#B":
+                                Log.i("%Khaos%", "Class #B");
+                                break;
+                            case "#C":
+                                Log.i("%Khaos%", "Class #C");
+                                break;
+                            case "#D":
+                                Log.i("%Khaos%", "Class #D");
+                                break;
+                        }
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
 
                 Log.i("SmsReceiver", "sPhoneNo:" + sPhoneNo);
