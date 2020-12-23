@@ -5,15 +5,25 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Looper;
 import android.telephony.SmsMessage;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 
 public class ServerFragment extends Fragment {
 
@@ -34,9 +44,27 @@ public class ServerFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View root = inflater.inflate(R.layout.server_fragment, container, false);
 
+        final EditText device_ip = ((EditText) root.findViewById(R.id.device_ip));
+        Button test_on = ((Button) root.findViewById(R.id.test_on));
+        Button test_off = ((Button) root.findViewById(R.id.test_off));
+
+        test_on.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deviceON(device_ip.getText().toString());
+            }
+        });
+
+        test_off.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deviceOFF(device_ip.getText().toString());
+            }
+        });
+
+        // 收到SMS
         IntentFilter filter = new IntentFilter();
         filter.addAction("android.provider.Telephony.SMS_RECEIVED");
-        //filter.setPriority(18);
         getContext().registerReceiver(broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -77,5 +105,81 @@ public class ServerFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         getContext().unregisterReceiver(broadcastReceiver);
+    }
+
+    void deviceON(final String deviceIP) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    // http://192.168.50.152/io/1
+                    URL url = new URL("http://" + deviceIP + "/io/1");
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("GET");
+                    conn.setConnectTimeout(5000); //set timeout to 5 seconds
+                    conn.setDoInput(true); //允許輸入流，即允許下載
+                    conn.setUseCaches(false); //設置是否使用緩存
+
+                    // 讀資料
+                    InputStream is = conn.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+                    String response = "";
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        response += line + '\n';
+                    }
+                    reader.close();
+
+                    conn.disconnect();
+                    Log.d("## Response ", response);
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getActivity(), "Request Error!", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            }
+        }).start();
+    }
+
+    void deviceOFF(final String deviceIP) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    // http://192.168.50.152/io/0
+                    URL url = new URL("http://" + deviceIP + "/io/0");
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("GET");
+                    conn.setConnectTimeout(5000); //set timeout to 5 seconds
+                    conn.setDoInput(true); //允許輸入流，即允許下載
+                    conn.setUseCaches(false); //設置是否使用緩存
+
+                    // 讀資料
+                    InputStream is = conn.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+                    String response = "";
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        response += line + '\n';
+                    }
+                    reader.close();
+
+                    conn.disconnect();
+                    Log.d("## Response ", response);
+                } catch (Exception e) {
+                    e.printStackTrace();
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getActivity(), "Request Error!", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            }
+        }).start();
     }
 }
