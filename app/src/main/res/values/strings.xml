@@ -8,4 +8,7 @@
         <item>分</item>
         <item>時</item>
     </string-array>
+
+    <item name="HH" type="id"></item>
+    <item name="MM" type="id"></item>
 </resources>

@@ -94,13 +94,44 @@ public class ClientFragment extends Fragment {
         once = ((RadioButton) root.findViewById(R.id.once));
         once_ = ((LinearLayout) root.findViewById(R.id.once_));
         once_on = ((Button) root.findViewById(R.id.once_on));
+        once_on.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendSMSmsg(server_phoneNu.getText().toString(), "%Khaos%,#A,1");
+            }
+        });
         once_off = ((Button) root.findViewById(R.id.once_off));
+        once_off.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendSMSmsg(server_phoneNu.getText().toString(), "%Khaos%,#A,1");
+            }
+        });
 
         prid = ((RadioButton) root.findViewById(R.id.prid));
         prid_ = ((RelativeLayout) root.findViewById(R.id.prid_));
         prid_time = ((EditText) root.findViewById(R.id.prid_time));
         prid_spinner = ((Spinner) root.findViewById(R.id.prid_spinner));
         prid_go = ((Button) root.findViewById(R.id.prid_go));
+        prid_go.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int time = Integer.parseInt(prid_time.getText().toString());
+                String unit = prid_spinner.getSelectedItem().toString();
+                switch (unit) {
+                    case "秒":
+                        time *= 1;
+                        break;
+                    case "分":
+                        time *= 60;
+                        break;
+                    case "時":
+                        time *= 60 * 60;
+                        break;
+                }
+                sendSMSmsg(server_phoneNu.getText().toString(), "%Khaos%,#B," + String.valueOf(time));
+            }
+        });
 
         rept = ((RadioButton) root.findViewById(R.id.rept));
         rept_ = ((LinearLayout) root.findViewById(R.id.rept_));
@@ -109,6 +140,40 @@ public class ClientFragment extends Fragment {
         rept_time2 = ((EditText) root.findViewById(R.id.rept_time2));
         rept_spinner2 = ((Spinner) root.findViewById(R.id.rept_spinner2));
         rept_go = ((Button) root.findViewById(R.id.rept_go));
+        rept_go.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int time1 = Integer.parseInt(rept_time1.getText().toString());
+                String unit1 = rept_spinner1.getSelectedItem().toString();
+                switch (unit1) {
+                    case "秒":
+                        time1 *= 1;
+                        break;
+                    case "分":
+                        time1 *= 60;
+                        break;
+                    case "時":
+                        time1 *= 60 * 60;
+                        break;
+                }
+
+                int time2 = Integer.parseInt(rept_time2.getText().toString());
+                String unit2 = rept_spinner2.getSelectedItem().toString();
+                switch (unit2) {
+                    case "秒":
+                        time2 *= 1;
+                        break;
+                    case "分":
+                        time2 *= 60;
+                        break;
+                    case "時":
+                        time2 *= 60 * 60;
+                        break;
+                }
+
+                sendSMSmsg(server_phoneNu.getText().toString(), "%Khaos%,#C," + String.valueOf(time1) + "," + String.valueOf(time2));
+            }
+        });
 
         scdl = ((RadioButton) root.findViewById(R.id.scdl));
         scdl_ = ((LinearLayout) root.findViewById(R.id.scdl_));
@@ -122,6 +187,29 @@ public class ClientFragment extends Fragment {
         scdl_time1 = ((EditText) root.findViewById(R.id.scdl_time1));
         scdl_time2 = ((EditText) root.findViewById(R.id.scdl_time2));
         scdl_go = ((Button) root.findViewById(R.id.scdl_go));
+        scdl_go.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (scdl_time1.getText().toString() == "" || scdl_time2.getText().toString() == "")
+                    return;
+
+                int time1 = (int) scdl_time1.getTag(R.id.HH) * 60 * 60 + (int) scdl_time1.getTag(R.id.MM) * 60;
+                int time2 = (int) scdl_time2.getTag(R.id.HH) * 60 * 60 + (int) scdl_time2.getTag(R.id.MM) * 60;
+
+                // Java 中星期 日、一、二、三、四、五、六,分別對應是 1 - 7
+                String ww = "";
+                ww += (week1.isChecked() ? "1" : "0");
+                ww += (week2.isChecked() ? "1" : "0");
+                ww += (week3.isChecked() ? "1" : "0");
+                ww += (week4.isChecked() ? "1" : "0");
+                ww += (week5.isChecked() ? "1" : "0");
+                ww += (week6.isChecked() ? "1" : "0");
+                ww += (week7.isChecked() ? "1" : "0");
+
+                sendSMSmsg(server_phoneNu.getText().toString(), "%Khaos%,#D," + ww + ","
+                        + String.valueOf(time1) + "," + String.valueOf(time2));
+            }
+        });
 
         once.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,6 +265,8 @@ public class ClientFragment extends Fragment {
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         ((EditText) v).setText((hourOfDay > 12 ? "PM " : "AM ") +
                                 (hourOfDay > 12 ? hourOfDay - 12 : hourOfDay) + ":" + minute);
+                        v.setTag(R.id.HH, hourOfDay);
+                        v.setTag(R.id.MM, minute);
                     }
                 }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(calendar.MINUTE), false);
                 timePickerDialog.show();
