@@ -324,49 +324,49 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="4dp"
-                                android:text="\n一" />
+                                android:text="\n日" />
 
                             <CheckBox
                                 android:id="@+id/week2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="4dp"
-                                android:text="\n二" />
+                                android:text="\n一" />
 
                             <CheckBox
                                 android:id="@+id/week3"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="4dp"
-                                android:text="\n三" />
+                                android:text="\n二" />
 
                             <CheckBox
                                 android:id="@+id/week4"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="4dp"
-                                android:text="\n四" />
+                                android:text="\n三" />
 
                             <CheckBox
                                 android:id="@+id/week5"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="4dp"
-                                android:text="\n五" />
+                                android:text="\n四" />
 
                             <CheckBox
                                 android:id="@+id/week6"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="4dp"
-                                android:text="\n六" />
+                                android:text="\n五" />
 
                             <CheckBox
                                 android:id="@+id/week7"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="4dp"
-                                android:text="\n日" />
+                                android:text="\n六" />
 
                         </LinearLayout>
                     </HorizontalScrollView>

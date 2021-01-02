@@ -104,7 +104,7 @@ public class ClientFragment extends Fragment {
         once_off.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendSMSmsg(server_phoneNu.getText().toString(), "%Khaos%,#A,1");
+                sendSMSmsg(server_phoneNu.getText().toString(), "%Khaos%,#A,0");
             }
         });
 
@@ -190,11 +190,17 @@ public class ClientFragment extends Fragment {
         scdl_go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (scdl_time1.getText().toString() == "" || scdl_time2.getText().toString() == "")
-                    return;
+                int time1 = 0;
+                int time2 = 0;
 
-                int time1 = (int) scdl_time1.getTag(R.id.HH) * 60 * 60 + (int) scdl_time1.getTag(R.id.MM) * 60;
-                int time2 = (int) scdl_time2.getTag(R.id.HH) * 60 * 60 + (int) scdl_time2.getTag(R.id.MM) * 60;
+                try {
+                    time1 = (int) scdl_time1.getTag(R.id.HH) * 60 * 60 + (int) scdl_time1.getTag(R.id.MM) * 60;
+                    time2 = (int) scdl_time2.getTag(R.id.HH) * 60 * 60 + (int) scdl_time2.getTag(R.id.MM) * 60;
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    Toast.makeText(getContext(), "Please specify time period!", Toast.LENGTH_LONG).show();
+                    return;
+                }
 
                 // Java 中星期 日、一、二、三、四、五、六,分別對應是 1 - 7
                 String ww = "";
@@ -285,6 +291,8 @@ public class ClientFragment extends Fragment {
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         ((EditText) v).setText((hourOfDay > 12 ? "PM " : "AM ") +
                                 (hourOfDay > 12 ? hourOfDay - 12 : hourOfDay) + ":" + minute);
+                        v.setTag(R.id.HH, hourOfDay);
+                        v.setTag(R.id.MM, minute);
                     }
                 }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(calendar.MINUTE), false);
                 timePickerDialog.show();
